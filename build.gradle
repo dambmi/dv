@@ -1,0 +1,50 @@
+import fi.jasoft.plugin.GradleVaadinPlugin
+
+/* * Bootstrap script for the Gradle Vaadin Plugin. * *
+ The script will add the latest version of the plugin to the build script
+ * dependencies and apply the plugin to the project. If you do not want *
+  * this behaviour you can copy&paste the below configuration into your *
+  * own build script and define your own repository and version for the plugin. */
+
+buildscript {
+    project.ext {
+        pluginVersion = '+'
+        repositoryName = 'Bintray Plugin Repository'
+        repositoryUrl = 'http://dl.bintray.com/johndevs/maven'
+        snapshotRepositoryName = 'Jasoft.fi Plugin Snapshot Repository'
+        snapshotRepositoryUrl = 'http://mvn.jasoft.fi/maven2-snapshots'
+    }
+
+    repositories {
+        mavenCentral()
+
+        maven({
+            name = project.ext.repositoryName
+            url = project.ext.repositoryUrl
+        })
+
+    }
+
+    dependencies {
+        classpath group: 'fi.jasoft.plugin', name: 'gradle-vaadin-plugin', version: project.ext.pluginVersion
+    }
+}
+
+repositories {
+    maven({
+        name = project.ext.repositoryName
+        url = project.ext.repositoryUrl
+    })
+}
+
+if (!project.plugins.findPlugin(GradleVaadinPlugin)) {
+    project.apply(plugin: GradleVaadinPlugin)
+}
+
+apply plugin: 'idea'
+
+dependencies {
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.25'
+    compile group: 'org.apache.tika', name: 'tika-core', version: '1.6'
+    compile group: 'com.zaxxer', name: 'HikariCP', version: '2.2.5'
+}
